@@ -198,6 +198,57 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user` VALUES (1,'admin','{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi','admin@example.com','','\0','\0','\0','1970-01-01 00:00:00','1970-01-01 00:00:00',0),(2,'user','{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi','user@example.com','','\0','\0','\0','1970-01-01 00:00:00','1970-01-01 00:00:00',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+drop table if exists oauth_client_token;
+create table oauth_client_token (
+  token_id VARCHAR(255),
+  token LONGBLOB,
+  authentication_id VARCHAR(255),
+  user_name VARCHAR(255),
+  client_id VARCHAR(255)
+);
+
+drop table if exists oauth_access_token;
+create table `oauth_access_token` (
+  token_id VARCHAR(255),
+  token LONGBLOB,
+  authentication_id VARCHAR(255),
+  user_name VARCHAR(255),
+  client_id VARCHAR(255),
+  authentication LONGBLOB,
+  refresh_token VARCHAR(255)
+);
+
+drop table if exists oauth_refresh_token;
+create table `oauth_refresh_token`(
+  token_id VARCHAR(255),
+  token LONGBLOB,
+  authentication LONGBLOB
+);
+
+drop table if exists oauth_code;
+create table oauth_code (
+  code VARCHAR(255), authentication VARBINARY(255)
+);
+
+drop table if exists oauth_approvals;
+create table oauth_approvals (
+    userId VARCHAR(255),
+    clientId VARCHAR(255),
+    scope VARCHAR(255),
+    status VARCHAR(10),
+    expiresAt DATETIME,
+    lastModifiedAt DATETIME
+);
+
+
+
+
+
+
+
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

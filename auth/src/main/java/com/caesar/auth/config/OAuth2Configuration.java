@@ -29,6 +29,11 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.TokenRequest;
+import org.springframework.security.oauth2.provider.approval.ApprovalStore;
+import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpointAuthenticationFilter;
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -59,16 +64,22 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
     @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
 
-//    TODO: Ver estos beans para que el usuario pueda manejar sus apps con el oauth. Ver si falta tablas en la DB para esto.
-//    @Bean
-//    public JdbcClientDetailsService clientDetailsService() {
-//        return new JdbcClientDetailsService(dataSource);
-//    }
-//
-//    @Bean
-//    public ApprovalStore approvalStore() {
-//        return new JdbcApprovalStore(dataSource);
-//    }
+    @Bean
+    public JdbcClientDetailsService clientDetailsService() {
+        JdbcClientDetailsService clientDS = new JdbcClientDetailsService(dataSource);
+        clientDS.setPasswordEncoder(passwordEncoder);
+        return clientDS;
+    }
+
+    @Bean
+    public ApprovalStore approvalStore() {
+        return new JdbcApprovalStore(dataSource);
+    }
+
+    @Bean
+    public AuthorizationCodeServices authorizationCodeServices() {
+        return new JdbcAuthorizationCodeServices(dataSource);
+    }
 
     @Bean
     public OAuth2RequestFactory requestFactory() {
@@ -84,7 +95,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(dataSource).passwordEncoder(passwordEncoder);
+        clients.withClientDetails(clientDetailsService());
     }
 
     @Bean
@@ -99,8 +110,13 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore()).tokenEnhancer(jwtAccessTokenConverter())
-            .authenticationManager(authenticationManager).userDetailsService(userDetailsService);
+        endpoints
+            .tokenStore(tokenStore())
+            .tokenEnhancer(jwtAccessTokenConverter())
+            .authenticationManager(authenticationManager)
+            .userDetailsService(userDetailsService)
+            .approvalStore(approvalStore())
+            .authorizationCodeServices(authorizationCodeServices());
         if (checkUserScopes)
             endpoints.requestFactory(requestFactory());
     }
