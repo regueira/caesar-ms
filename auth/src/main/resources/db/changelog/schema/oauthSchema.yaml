@@ -1,0 +1,138 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Seba
+      changes:
+
+      - createTable:
+          columns:
+          - column:
+              name: token_id
+              type: VARCHAR(255)
+          - column:
+              name: token
+              type: LONGBLOB
+          - column:
+              name: authentication_id
+              type: VARCHAR(255)
+          - column:
+              name: user_name
+              type: VARCHAR(255)
+          - column:
+              name: client_id
+              type: VARCHAR(255)
+          - column:
+              name: authentication
+              type: LONGBLOB
+          - column:
+              name: refresh_token
+              type: VARCHAR(255)
+          tableName: oauth_access_token
+
+      - createTable:
+          columns:
+          - column:
+              name: userId
+              type: VARCHAR(255)
+          - column:
+              name: clientId
+              type: VARCHAR(255)
+          - column:
+              name: scope
+              type: VARCHAR(255)
+          - column:
+              name: status
+              type: VARCHAR(10)
+          - column:
+              name: expiresAt
+              type: datetime
+          - column:
+              name: lastModifiedAt
+              type: datetime
+          tableName: oauth_approvals
+
+      - createTable:
+          columns:
+          - column:
+              constraints:
+                nullable: false
+              name: client_id
+              type: VARCHAR(255)
+          - column:
+              name: resource_ids
+              type: VARCHAR(255)
+          - column:
+              name: client_secret
+              type: VARCHAR(255)
+          - column:
+              name: scope
+              type: VARCHAR(255)
+          - column:
+              name: authorized_grant_types
+              type: VARCHAR(255)
+          - column:
+              name: web_server_redirect_uri
+              type: VARCHAR(255)
+          - column:
+              name: authorities
+              type: VARCHAR(255)
+          - column:
+              name: access_token_validity
+              type: INT
+          - column:
+              name: refresh_token_validity
+              type: INT
+          - column:
+              name: additional_information
+              type: VARCHAR(4096)
+          - column:
+              name: autoapprove
+              type: VARCHAR(255)
+          tableName: oauth_client_details
+
+      - addPrimaryKey:
+          columnNames: client_id
+          constraintName: PRIMARY
+          tableName: oauth_client_details
+
+      - createTable:
+          columns:
+          - column:
+              name: token_id
+              type: VARCHAR(255)
+          - column:
+              name: token
+              type: LONGBLOB
+          - column:
+              name: authentication_id
+              type: VARCHAR(255)
+          - column:
+              name: user_name
+              type: VARCHAR(255)
+          - column:
+              name: client_id
+              type: VARCHAR(255)
+          tableName: oauth_client_token
+
+      - createTable:
+          columns:
+          - column:
+              name: code
+              type: VARCHAR(255)
+          - column:
+              name: authentication
+              type: VARBINARY(255)
+          tableName: oauth_code
+
+      - createTable:
+          columns:
+          - column:
+              name: token_id
+              type: VARCHAR(255)
+          - column:
+              name: token
+              type: LONGBLOB
+          - column:
+              name: authentication
+              type: LONGBLOB
+          tableName: oauth_refresh_token

@@ -1,0 +1,285 @@
+databaseChangeLog:
+- changeSet:
+    id: 1
+    author: Seba
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT UNSIGNED
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(60)
+        - column:
+            constraints:
+              nullable: false
+            defaultValueComputed: current_timestamp()
+            name: created_on
+            type: datetime
+        - column:
+            constraints:
+              nullable: false
+            defaultValueComputed: current_timestamp()
+            name: updated_on
+            type: datetime
+        - column:
+            constraints:
+              nullable: false
+            defaultValueNumeric: 0
+            name: version
+            type: BIGINT UNSIGNED
+        tableName: permission
+
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT UNSIGNED
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(60)
+        - column:
+            constraints:
+              nullable: false
+            defaultValueComputed: current_timestamp()
+            name: created_on
+            type: datetime
+        - column:
+            constraints:
+              nullable: false
+            defaultValueComputed: current_timestamp()
+            name: updated_on
+            type: datetime
+        - column:
+            constraints:
+              nullable: false
+            defaultValueNumeric: 0
+            name: version
+            type: BIGINT UNSIGNED
+        tableName: role
+
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: permission_id
+            type: BIGINT UNSIGNED
+        - column:
+            constraints:
+              nullable: false
+            name: role_id
+            type: BIGINT UNSIGNED
+        - column:
+            constraints:
+              nullable: false
+            defaultValueComputed: current_timestamp()
+            name: created_on
+            type: datetime
+        - column:
+            constraints:
+              nullable: false
+            defaultValueComputed: current_timestamp()
+            name: updated_on
+            type: datetime
+        - column:
+            constraints:
+              nullable: false
+            defaultValueNumeric: 0
+            name: version
+            type: BIGINT UNSIGNED
+        tableName: permission_role
+
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: role_id
+            type: BIGINT UNSIGNED
+        - column:
+            constraints:
+              nullable: false
+            name: user_id
+            type: BIGINT UNSIGNED
+        - column:
+            constraints:
+              nullable: false
+            defaultValueComputed: current_timestamp()
+            name: created_on
+            type: datetime
+        - column:
+            constraints:
+              nullable: false
+            defaultValueComputed: current_timestamp()
+            name: updated_on
+            type: datetime
+        - column:
+            constraints:
+              nullable: false
+            defaultValueNumeric: 0
+            name: version
+            type: BIGINT UNSIGNED
+        tableName: role_user
+
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT UNSIGNED
+        - column:
+            constraints:
+              nullable: false
+            name: username
+            type: VARCHAR(24)
+        - column:
+            constraints:
+              nullable: false
+            name: password
+            type: VARCHAR(200)
+        - column:
+            constraints:
+              nullable: false
+            name: email
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: enabled
+            type: BIT(1)
+        - column:
+            constraints:
+              nullable: false
+            name: account_expired
+            type: BIT(1)
+        - column:
+            constraints:
+              nullable: false
+            name: credentials_expired
+            type: BIT(1)
+        - column:
+            constraints:
+              nullable: false
+            name: account_locked
+            type: BIT(1)
+        - column:
+            constraints:
+              nullable: false
+            defaultValueComputed: current_timestamp()
+            name: created_on
+            type: datetime
+        - column:
+            constraints:
+              nullable: false
+            defaultValueComputed: current_timestamp()
+            name: updated_on
+            type: datetime
+        - column:
+            constraints:
+              nullable: false
+            defaultValueNumeric: 0
+            name: version
+            type: BIGINT UNSIGNED
+        tableName: user
+
+    - addPrimaryKey:
+        columnNames: permission_id, role_id
+        constraintName: PRIMARY
+        tableName: permission_role
+
+    - addPrimaryKey:
+        columnNames: role_id, user_id
+        constraintName: PRIMARY
+        tableName: role_user
+
+    - addUniqueConstraint:
+        columnNames: name
+        constraintName: name_UNIQUE
+        tableName: permission
+
+    - addUniqueConstraint:
+        columnNames: name
+        constraintName: name_UNIQUE
+        tableName: role
+
+    - addUniqueConstraint:
+        columnNames: username
+        constraintName: user_ix1
+        tableName: user
+
+    - addUniqueConstraint:
+        columnNames: email
+        constraintName: user_ix2
+        tableName: user
+
+    - createIndex:
+        columns:
+        - column:
+            name: role_id
+        indexName: permission_role_fk2
+        tableName: permission_role
+
+    - createIndex:
+        columns:
+        - column:
+            name: user_id
+        indexName: role_user_fk2
+        tableName: role_user
+
+    - addForeignKeyConstraint:
+        baseColumnNames: permission_id
+        baseTableName: permission_role
+        constraintName: permission_role_fk1
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: permission
+
+    - addForeignKeyConstraint:
+        baseColumnNames: role_id
+        baseTableName: permission_role
+        constraintName: permission_role_fk2
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: role
+
+    - addForeignKeyConstraint:
+        baseColumnNames: role_id
+        baseTableName: role_user
+        constraintName: role_user_fk1
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: role
+
+    - addForeignKeyConstraint:
+        baseColumnNames: user_id
+        baseTableName: role_user
+        constraintName: role_user_fk2
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: user

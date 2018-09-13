@@ -1,0 +1,13 @@
+databaseChangeLog:
+
+  ###################################################
+  # Schema
+  - include:
+      file: db/changelog/schema/oauthSchema.yaml
+  - include:
+      file: db/changelog/schema/userSchema.yaml
+
+  ###################################################
+  # Data
+  - include:
+      file: db/changelog/data/oauthData.yaml
