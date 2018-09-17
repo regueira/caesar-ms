@@ -3,6 +3,7 @@ package com.caesar.auth.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,9 +16,9 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Role extends BaseIdEntity {
+public class Role extends BaseIdEntity implements GrantedAuthority {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 15L;
 
     private String name;
 
@@ -27,4 +28,9 @@ public class Role extends BaseIdEntity {
         @JoinColumn(name = "permission_id", referencedColumnName = "id") })
     private List<Permission> permissions;
 
+
+    @Override
+    public String getAuthority() {
+        return getName();
+    }
 }

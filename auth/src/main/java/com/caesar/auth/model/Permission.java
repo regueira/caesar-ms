@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 public class Permission extends BaseIdEntity implements GrantedAuthority {
 
+    private static final long serialVersionUID = 20L;
+
     private String name;
 
     @Override

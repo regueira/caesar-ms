@@ -1,0 +1,377 @@
+databaseChangeLog:
+- changeSet:
+    id: 1
+    author: Seba
+    changes:
+
+    ###################################################
+    # Permission Data
+    - insert:
+        columns:
+        - column:
+            name: id
+            valueNumeric: 1
+        - column:
+            name: name
+            value: "can_delete_user"
+        - column:
+            name: created_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: updated_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: version
+            valueNumeric: 0
+        tableName: permission
+
+    - insert:
+        columns:
+        - column:
+            name: id
+            valueNumeric: 2
+        - column:
+            name: name
+            value: "can_create_user"
+        - column:
+            name: created_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: updated_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: version
+            valueNumeric: 0
+        tableName: permission
+
+    - insert:
+        columns:
+        - column:
+            name: id
+            valueNumeric: 3
+        - column:
+            name: name
+            value: "can_update_user"
+        - column:
+            name: created_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: updated_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: version
+            valueNumeric: 0
+        tableName: permission
+
+    - insert:
+        columns:
+        - column:
+            name: id
+            valueNumeric: 4
+        - column:
+            name: name
+            value: "can_read_user"
+        - column:
+            name: created_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: updated_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: version
+            valueNumeric: 0
+        tableName: permission
+
+    ###################################################
+    # Role Data
+    - insert:
+        columns:
+        - column:
+            name: id
+            valueNumeric: 1
+        - column:
+            name: name
+            value: "ROLE_ADMIN"
+        - column:
+            name: created_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: updated_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: version
+            valueNumeric: 0
+        tableName: role
+
+    - insert:
+        columns:
+        - column:
+            name: id
+            valueNumeric: 2
+        - column:
+            name: name
+            value: "ROLE_USER"
+        - column:
+            name: created_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: updated_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: version
+            valueNumeric: 0
+        tableName: role
+
+    - insert:
+        columns:
+        - column:
+            name: id
+            valueNumeric: 3
+        - column:
+            name: name
+            value: "ROLE_OAUTH_ADMIN"
+        - column:
+            name: created_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: updated_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: version
+            valueNumeric: 0
+        tableName: role
+
+
+    ###################################################
+    # permission_role Data
+    - insert:
+        columns:
+        - column:
+            name: permission_id
+            valueNumeric: 1
+        - column:
+            name: role_id
+            valueNumeric: 1
+        - column:
+            name: created_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: updated_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: version
+            valueNumeric: 0
+        tableName: permission_role
+
+    - insert:
+        columns:
+        - column:
+            name: permission_id
+            valueNumeric: 2
+        - column:
+            name: role_id
+            valueNumeric: 1
+        - column:
+            name: created_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: updated_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: version
+            valueNumeric: 0
+        tableName: permission_role
+
+    - insert:
+        columns:
+        - column:
+            name: permission_id
+            valueNumeric: 3
+        - column:
+            name: role_id
+            valueNumeric: 1
+        - column:
+            name: created_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: updated_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: version
+            valueNumeric: 0
+        tableName: permission_role
+
+    - insert:
+        columns:
+        - column:
+            name: permission_id
+            valueNumeric: 4
+        - column:
+            name: role_id
+            valueNumeric: 1
+        - column:
+            name: created_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: updated_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: version
+            valueNumeric: 0
+        tableName: permission_role
+
+    - insert:
+        columns:
+        - column:
+            name: permission_id
+            valueNumeric: 4
+        - column:
+            name: role_id
+            valueNumeric: 2
+        - column:
+            name: created_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: updated_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: version
+            valueNumeric: 0
+        tableName: permission_role
+
+
+    ###################################################
+    # user Data
+    - insert:
+        columns:
+        - column:
+            name: id
+            valueNumeric: 1
+        - column:
+            name: username
+            value: "admin"
+        - column:
+            name: password
+            value: "{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi"
+        - column:
+            name: email
+            value: "admin@admin.com"
+        - column:
+            name: enabled
+            valueNumeric: 1
+        - column:
+            name: account_expired
+            value: "\0"
+        - column:
+            name: credentials_expired
+            value: "\0"
+        - column:
+            name: account_locked
+            value: "\0"
+        - column:
+            name: created_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: updated_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: version
+            valueNumeric: 0
+        tableName: user
+
+    - insert:
+        columns:
+        - column:
+            name: id
+            valueNumeric: 2
+        - column:
+            name: username
+            value: "user"
+        - column:
+            name: password
+            value: "{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi"
+        - column:
+            name: email
+            value: "user@user.com"
+        - column:
+            name: enabled
+            valueNumeric: 1
+        - column:
+            name: account_expired
+            value: "\0"
+        - column:
+            name: credentials_expired
+            value: "\0"
+        - column:
+            name: account_locked
+            value: "\0"
+        - column:
+            name: created_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: updated_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: version
+            valueNumeric: 0
+        tableName: user
+
+
+    ###################################################
+    # role_user Data
+    - insert:
+        columns:
+        - column:
+            name: role_id
+            valueNumeric: 1
+        - column:
+            name: user_id
+            valueNumeric: 1
+        - column:
+            name: created_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: updated_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: version
+            valueNumeric: 0
+        tableName: role_user
+
+    - insert:
+        columns:
+        - column:
+            name: role_id
+            valueNumeric: 3
+        - column:
+            name: user_id
+            valueNumeric: 1
+        - column:
+            name: created_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: updated_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: version
+            valueNumeric: 0
+        tableName: role_user
+
+    - insert:
+        columns:
+        - column:
+            name: role_id
+            valueNumeric: 2
+        - column:
+            name: user_id
+            valueNumeric: 2
+        - column:
+            name: created_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: updated_on
+            value: "1970-01-01 00:00:00"
+        - column:
+            name: version
+            valueNumeric: 0
+        tableName: role_user

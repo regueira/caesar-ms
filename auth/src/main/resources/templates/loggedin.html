@@ -1,37 +1,42 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <body>
-    <h1>yeah!!!</h1>
+    <h1>LoggedIn</h1>
 
-    <h3>Autorización con una app ya aprobada</h3>
+    <div>
+        <span sec:authorize="isAuthenticated()" style="display: inline-block;">
+            <a th:href="@{/logout}">Sign Out</a>
+        </span>
+    </div>
+
+    <h3>Authorize app</h3>
     <form action="/oauth/authorize" method="post">
         <!--input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/-->
-        <input type="hidden" name="response_type" value="token"/>
-        <input type="hidden" name="client_id" value="adminapp"/>
-        <input type="hidden" name="scope" value="role_admin"/>
-        <input type="hidden" name="state" value="23412341234sadf"/>
-        <input type="hidden" name="redirect_uri" value="http://google.com"/>
+        <div class="form-group">
+            <label for="response_type">Response Type </label>
+            <input class="form-control" id="response_type" name="response_type" type="text" value="token"/>
+        </div>
 
-        <input type="submit"
-               name="login-submit"
-               id="login-submit"
-               class="form-control btn btn-info"
-               value="Log In">
-    </form>
+        <div class="form-group">
+            <label for="client_id">ClientId </label>
+            <input class="form-control" id="client_id" name="client_id" type="text" value="adminapp"/>
+        </div>
 
-    <h3>Autorización con una app no aprobada</h3>
-    <form action="/oauth/authorize" method="post">
-        <!--input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/-->
-        <input type="hidden" name="response_type" value="token"/>
-        <input type="hidden" name="client_id" value="adminauth"/>
-        <input type="hidden" name="scope" value="role_admin"/>
-        <input type="hidden" name="state" value="23412341234sadf"/>
-        <input type="hidden" name="redirect_uri" value="http://google.com"/>
+        <div class="form-group">
+            <label for="scope">Scope </label>
+            <input class="form-control" id="scope" name="scope" type="text" value="role_admin"/>
+        </div>
 
-        <input type="submit"
-               name="login-submit"
-               id="login-submit"
-               class="form-control btn btn-info"
-               value="Log In">
+        <div class="form-group">
+            <label for="redirect_uri">Redirect URI </label>
+            <input class="form-control" id="redirect_uri" name="redirect_uri" type="text" value="http://google.com"/>
+        </div>
+
+        <div class="form-group">
+            <label for="state">State </label>
+            <input class="form-control" id="state" name="state" type="text" value="RandomNro-123123"/>
+        </div>
+
+        <input type="submit" value="Log In">
     </form>
 </body>

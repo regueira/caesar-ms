@@ -104,12 +104,12 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
     }
 
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+    public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
         oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
     }
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints
             .tokenStore(tokenStore())
             .tokenEnhancer(jwtAccessTokenConverter())
@@ -122,11 +122,12 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
     }
 
     /**
-     * Para crear el .jks ejecutar en la consola:
+     * In order to create a keyStore for the Auth service, with a RSA key, execute this:
      * $ keytool -genkeypair -alias jwt -keyalg RSA -keypass password -keystore jwt.jks -storepass password
      * $ keytool -importkeystore -srckeystore jwt.jks -destkeystore jwt.jks -deststoretype pkcs12
      *
-     * Exportar la PublicKey para que los resource servers puedan conectarse usandola.
+     *
+     * Export the public key for the resource servers:
      * $ keytool -list -rfc --keystore jwt.jks | openssl x509 -inform pem -pubkey
      *
      * @return
@@ -139,7 +140,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
         return converter;
     }
 
-    /*
+    /**
      * Add custom user principal information to the JWT token
      */
     class CustomTokenEnhancer extends JwtAccessTokenConverter {

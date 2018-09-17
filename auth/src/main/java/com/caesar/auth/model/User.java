@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
@@ -25,7 +24,7 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 public class User extends BaseIdEntity implements UserDetails {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 10L;
 
     private String email;
     private String username;
@@ -43,8 +42,10 @@ public class User extends BaseIdEntity implements UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "role_user", joinColumns = {
-        @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
-        @JoinColumn(name = "role_id", referencedColumnName = "id") })
+        @JoinColumn(name = "user_id", referencedColumnName = "id")
+    }, inverseJoinColumns = {
+        @JoinColumn(name = "role_id", referencedColumnName = "id")
+    })
     private List<Role> roles;
 
     @Override
@@ -68,17 +69,15 @@ public class User extends BaseIdEntity implements UserDetails {
     }
 
     /*
-     * Get roles and permissions and add them as a Set of GrantedAuthority
+     * Get roles and permissions as a Set of GrantedAuthority
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
 
-        roles.forEach(r -> {
-            authorities.add(new SimpleGrantedAuthority(r.getName()));
-            r.getPermissions().forEach(p -> {
-                authorities.add(new SimpleGrantedAuthority(p.getAuthority()));
-            });
+        roles.forEach(role -> {
+            authorities.add(role);
+            authorities.addAll(role.getPermissions());
         });
 
         return authorities;

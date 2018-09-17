@@ -8,6 +8,8 @@ databaseChangeLog:
       file: db/changelog/schema/userSchema.yaml
 
   ###################################################
-  # Data
+  # Sample Data
   - include:
       file: db/changelog/data/oauthData.yaml
+  - include:
+      file: db/changelog/data/userData.yaml

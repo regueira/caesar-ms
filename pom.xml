@@ -10,6 +10,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>auth</module>
+        <module>resource</module>
     </modules>
 
     <parent>
