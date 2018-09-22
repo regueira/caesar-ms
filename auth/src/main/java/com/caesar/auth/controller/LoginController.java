@@ -17,7 +17,7 @@ public class LoginController {
 
     @RequestMapping("/loggedin")
     @ResponseStatus(HttpStatus.OK)
-    public String loggedin(){
+    public String loggedin() {
         return "loggedin";
     }
 }

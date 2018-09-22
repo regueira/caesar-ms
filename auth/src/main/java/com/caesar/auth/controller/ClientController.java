@@ -45,41 +45,41 @@ public class ClientController {
     private TokenStore tokenStore;
 
     @InitBinder
-    public void initBinder(WebDataBinder binder){
+    public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Collection.class, new SplitCollectionEditor(Set.class,","));
         binder.registerCustomEditor(GrantedAuthority.class,new AuthorityPropertyEditor());
     }
 
     @GetMapping("/")
-    public ModelAndView index(Map<String,Object> model, @AuthenticationPrincipal final User user){
+    public ModelAndView index(Map<String,Object> model, @AuthenticationPrincipal final User user) {
 
-        List<Approval> approvals= clientsDetailsService.listClientDetails().stream()
+        List<Approval> approvals = clientsDetailsService.listClientDetails().stream()
             .map(clientDetails -> approvalStore.getApprovals(user.getUsername(),clientDetails.getClientId()))
             .flatMap(Collection::stream)
             .collect(Collectors.toList());
 
         model.put("approvals",approvals);
         model.put("clientDetails",clientsDetailsService.listClientDetails());
-        return new ModelAndView ("client/index",model);
+        return new ModelAndView("client/index",model);
     }
 
     @PostMapping("/revoke")
     public String revokeApproval(@RequestParam("clientId") final String clientId,
-                                 @AuthenticationPrincipal final User user){
+                                 @AuthenticationPrincipal final User user) {
 
-//        Permite el revoke de una aplicacion de un usuario.
+        //Permite el revoke de una aplicacion de un usuario.
         Collection<Approval> approvals = approvalStore.getApprovals(user.getUsername(), clientId);
 
         approvalStore.revokeApprovals(approvals);
         tokenStore.findTokensByClientIdAndUserName(clientId,user.getId().toString())
-            .forEach(tokenStore::removeAccessToken) ;
+            .forEach(tokenStore::removeAccessToken);
         return "redirect:/client/";
     }
 
 
     @GetMapping("/form")
     @PreAuthorize("hasRole('ROLE_OAUTH_ADMIN')")
-    public String form(@RequestParam(value="client",required=false) final String clientId, Model model){
+    public String form(@RequestParam(value = "client",required = false) final String clientId, Model model) {
 
         ClientDetails clientDetails;
         if (clientId != null) {
@@ -112,8 +112,8 @@ public class ClientController {
 
     @GetMapping("{client.clientId}/delete")
     @PreAuthorize("hasRole('ROLE_OAUTH_ADMIN')")
-    public String delete(@ModelAttribute BaseClientDetails ClientDetails,
-                         @PathVariable("client.clientId") String id){
+    public String delete(@ModelAttribute BaseClientDetails clientDetails,
+                         @PathVariable("client.clientId") String id) {
         clientsDetailsService.removeClientDetails(id);
         return "redirect:/client/";
     }

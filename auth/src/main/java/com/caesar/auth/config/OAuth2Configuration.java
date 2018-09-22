@@ -93,14 +93,14 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
         return new JwtTokenStore(jwtAccessTokenConverter());
     }
 
-    @Override
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.withClientDetails(clientDetailsService());
-    }
-
     @Bean
     public TokenEndpointAuthenticationFilter tokenEndpointAuthenticationFilter() {
         return new TokenEndpointAuthenticationFilter(authenticationManager, requestFactory());
+    }
+
+    @Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients.withClientDetails(clientDetailsService());
     }
 
     @Override
@@ -117,8 +117,9 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
             .userDetailsService(userDetailsService)
             .approvalStore(approvalStore())
             .authorizationCodeServices(authorizationCodeServices());
-        if (checkUserScopes)
+        if (checkUserScopes) {
             endpoints.requestFactory(requestFactory());
+        }
     }
 
     /**
@@ -126,11 +127,10 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
      * $ keytool -genkeypair -alias jwt -keyalg RSA -keypass password -keystore jwt.jks -storepass password
      * $ keytool -importkeystore -srckeystore jwt.jks -destkeystore jwt.jks -deststoretype pkcs12
      *
+     * <p>Export the public key for the resource servers:
+     * $ keytool -list -rfc --keystore jwt.jks | openssl x509 -inform pem -pubkey</p>
      *
-     * Export the public key for the resource servers:
-     * $ keytool -list -rfc --keystore jwt.jks | openssl x509 -inform pem -pubkey
-     *
-     * @return
+     * @return JwtAccessTokenConverter
      */
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
@@ -141,7 +141,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
     }
 
     /**
-     * Add custom user principal information to the JWT token
+     * Add custom user principal information to the JWT token.
      */
     class CustomTokenEnhancer extends JwtAccessTokenConverter {
         @Override
